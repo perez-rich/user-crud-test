@@ -7,7 +7,7 @@ export default function Authenticated({ user, header, children }: PropsWithChild
         <div className="min-h-screen bg-white">
             <nav className="navbar bg-base-100">
                 <div className="flex-1">
-                    <ul className="menu menu-horizontal px-1">
+                    <ul className="menu menu-horizontal px-1 gap-2">
                         <li>
                             <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                 Dashboard
