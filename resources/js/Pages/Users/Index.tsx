@@ -10,7 +10,7 @@ interface ListProps {
     users: User[]
 }
 
-export default function Dashboard({ auth, users }: ListProps) {
+export default function Index({ auth, users }: ListProps) {
     return (
         <AuthenticatedLayout
             user={auth.user}

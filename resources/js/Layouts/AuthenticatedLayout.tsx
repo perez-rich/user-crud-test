@@ -3,8 +3,7 @@ import NavLink from '@/Components/NavLink';
 import { Link } from '@inertiajs/react';
 import { User } from '@/types';
 
-export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
-    return (
+export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {    return (
         <div className="min-h-screen bg-white">
             <nav className="navbar bg-base-100">
                 <div className="flex-1">

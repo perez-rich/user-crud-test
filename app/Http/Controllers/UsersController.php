@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserType;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
@@ -28,10 +29,25 @@ class UsersController extends Controller
         ]);
     }
 
-    public function edit(User $user)
+    public function create()
     {
         return Inertia::render('Users/Form', [
 
+        ]);
+    }
+
+    public function store()
+    {
+        // $this->service->create();
+
+        return redirect()->route('users.index');
+    }
+
+    public function edit(User $user)
+    {
+        return Inertia::render('Users/Form', [
+            'user' => $user,
+            'types' => UserType::cases()
         ]);
     }
 

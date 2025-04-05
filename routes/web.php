@@ -33,8 +33,13 @@ Route::middleware(['auth', 'verified'])
     ->name('users.')
     ->group(function () {
         Route::get('/', [UsersController::class, 'index'])->name('index');
+
+        Route::get('/create', [UsersController::class, 'create'])->name('create');
+        Route::post('/', [UsersController::class, 'store'])->name('store');
+
         Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('edit');
         Route::patch('/{user}', [UsersController::class, 'update'])->name('update');
+
         Route::delete('/{user}', [UsersController::class, 'delete'])->name('delete');
         Route::post('/{user}/restore', [UsersController::class, 'restore'])->name('restore')->withTrashed();
     });

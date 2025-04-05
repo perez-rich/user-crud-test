@@ -9,7 +9,8 @@ import { Head, useForm } from '@inertiajs/react';
 export default function Login({ status }: { status?: string }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
-        password: '',    });
+        password: '',
+    });
 
     useEffect(() => {
         return () => {
