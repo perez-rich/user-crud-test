@@ -6,3 +6,8 @@ h1, h2, h3 {
     font-size: 2rem;
     font-weight: bold;
 }
+
+.btn,
+.menu li a {
+    @apply rounded-sm;
+}

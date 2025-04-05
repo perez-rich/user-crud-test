@@ -40,7 +40,7 @@ export default function Dashboard({ auth, users }: ListProps) {
                                 <Link href={`/users/${user.id}/edit`} className="btn btn-xs btn-primary">
                                     Edit
                                 </Link>
-                                <Link href={`/users/${user.id}/delete`} className="btn btn-xs btn-error">
+                                <Link href={`/users/${user.id}/delete`} className="btn btn-xs btn-link">
                                     Deactivate
                                 </Link>
                             </td>
