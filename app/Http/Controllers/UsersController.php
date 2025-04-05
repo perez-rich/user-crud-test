@@ -33,13 +33,15 @@ class UsersController extends Controller
     public function create()
     {
         return Inertia::render('Users/Form', [
-
+            'user' => null,
+            'types' => UserType::cases()
         ]);
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        // $this->repository->create();
+        $data = $request->all();
+        $this->repository->create($data);
 
         return redirect()->route('users.index');
     }

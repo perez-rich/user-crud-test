@@ -18,6 +18,14 @@ export default function Index({ auth, users }: ListProps) {
         >
             <Head title="Users" />
 
+            <section>
+                <div className="flex justify-between items-center">
+                    <h3 className="text-lg font-semibold">User List</h3>
+                    <Link href={route('users.create')} className="btn btn-sm btn-success text-white">
+                        Create User
+                    </Link>
+                </div>
+            </section>
             <table className="table table-zebra">
                 <thead>
                     <tr>

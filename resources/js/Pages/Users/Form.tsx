@@ -12,13 +12,13 @@ interface ListProps {
     auth: {
         user: User;
     },
-    user: User;
+    user: User | null;
     types: string[];
 }
 
 export default function Form({ auth, user, types }: ListProps) {
     const { data, setData, post, processing, errors, reset } = useForm(user);
-    const heading = user.id ? 'Edit User' : 'Create User';
+    const heading = user?.id ? 'Edit User' : 'Create User';
 
     useEffect(() => {
         return () => {
@@ -29,7 +29,7 @@ export default function Form({ auth, user, types }: ListProps) {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        if (user.id) {
+        if (user?.id) {
             post(route('users.update', user.id));
         }
         else {
@@ -39,7 +39,7 @@ export default function Form({ auth, user, types }: ListProps) {
 
     return (
         <AuthenticatedLayout
-            user={user}
+            user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">
                 {heading}
             </h2>}

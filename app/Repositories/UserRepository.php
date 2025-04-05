@@ -23,7 +23,15 @@ class UserRepository
      */
     public function create(array $data): User
     {
-        return User::create($data);
+        $user = new User();
+
+        // NOTE: for testing purposes we'll auto set the verfied date
+        $user->email_verified_at = now();
+
+        $user->fill($data);
+        $user->save();
+
+        return $user;
     }
 
     /**

@@ -13,11 +13,11 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                                 Dashboard
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink href={route('users.index')} active={route().current('users.index')}>
-                                Users
-                            </NavLink>
-                        </li>
+                    {user.type == 'admin' && <li>
+                        <NavLink href={route('users.index')} active={route().current('users.index')}>
+                            Users
+                        </NavLink>
+                    </li>}
                     </ul>
                 </div>
                 <div className="flex-none">
@@ -33,12 +33,12 @@ export default function Authenticated({ user, header, children }: PropsWithChild
             </nav>
 
             {header && (
-                <header className="bg-white shadow">
+                <header className="bg-white shadow p-4">
                     <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">{header}</div>
                 </header>
             )}
 
-            <main>{children}</main>
+            <main className="p-4">{children}</main>
         </div>
     );
 }
