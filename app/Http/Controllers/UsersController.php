@@ -10,6 +10,7 @@ use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Services\UserService;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -22,12 +23,18 @@ class UsersController extends Controller
         $this->service = $service;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->repository->getAll(true);
+        $searchTerm = $request->get('search');
+        $type = $request->get('type');
+        $users = $this->repository->getAll(true, $searchTerm, $type);
 
         return Inertia::render('Users/Index', [
-            'users' => $users->isEmpty() ? new UserCollection([]) : new UserCollection($users)
+            'users' => $users->isEmpty() ? new UserCollection([]) : new UserCollection($users),
+            'filters' => [
+                'search' => $searchTerm,
+                'type' => $type,
+            ]
         ]);
     }
 

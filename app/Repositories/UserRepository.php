@@ -10,9 +10,14 @@ class UserRepository
     /**
      *  @return Illuminate\Support\Collection|User[]
      */
-    public function getAll($includeDeactivated = false): Collection
+    public function getAll($includeDeactivated = false, ?string $searchTerm = null, ?string $type = null): Collection
     {
         return User::when($includeDeactivated, fn($query) => $query->withTrashed())
+            ->when($searchTerm, function ($query) use ($searchTerm) {
+                $query->where('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('email', 'like', "%{$searchTerm}%");
+            })
+            ->when($type, fn($query) => $query->where('type', $type))
             ->orderBy('last_login_at', 'desc')
             ->get();
     }

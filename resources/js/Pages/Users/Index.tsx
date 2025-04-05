@@ -1,16 +1,37 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, useForm } from '@inertiajs/react';
 import { User } from '@/types';
 import { shortFormat } from '@/utils/dates';
+import TextInput from '@/Components/TextInput';
+import { FormEventHandler } from 'react';
+import PrimaryButton from '@/Components/PrimaryButton';
 
 interface ListProps {
     auth: {
         user: User;
     };
+    filters: {
+        search: string;
+        type: string;
+    };
     users: User[]
 }
 
-export default function Index({ auth, users }: ListProps) {
+export default function Index({ auth, filters, users }: ListProps) {
+    const { data, setData, get, processing, errors, reset } = useForm({
+        search: filters.search || '',
+        type: filters.type || '',
+    });
+
+    const submitSearch: FormEventHandler = (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const search = formData.get('search') as string;
+        const type = formData.get('type') as string;
+
+        get(route('users.index', { search, type }));
+    };
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -20,7 +41,15 @@ export default function Index({ auth, users }: ListProps) {
 
             <section>
                 <div className="flex justify-between items-center">
-                    <h3 className="text-lg font-semibold">User List</h3>
+                    <form className="flex gap-2" onSubmit={submitSearch}>
+                        <TextInput placeholder="Enter Search" value={data.search} onChange={(e) => setData('search', e.target.value)}></TextInput>
+                        <select value={data.type} onChange={(e) => setData('type', e.target.value)}>
+                            <option value="">All</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                        <PrimaryButton>Filter</PrimaryButton>
+                    </form>
                     <Link href={route('users.create')} className="btn btn-sm btn-success text-white">
                         Create User
                     </Link>

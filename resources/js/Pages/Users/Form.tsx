@@ -5,9 +5,7 @@ import { FormEventHandler, useEffect } from 'react';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
-import Dropdown from '@/Components/Dropdown';
 import Checkbox from '@/Components/Checkbox';
-import { PassThrough } from 'node:stream';
 
 interface ListProps {
     auth: {
@@ -32,8 +30,8 @@ export default function Form({ auth, user, types }: ListProps) {
         };
     }, []);
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    const submit: FormEventHandler = (event) => {
+        event.preventDefault();
 
         if (user?.id) {
             post(route('users.update', user.id));
