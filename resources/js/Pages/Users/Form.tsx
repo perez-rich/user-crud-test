@@ -17,12 +17,7 @@ interface ListProps {
 }
 
 export default function Form({ auth, user, types }: ListProps) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: '',
-        email: '',
-        password: '',
-        type: ''
-    });
+    const { data, setData, post, processing, errors, reset } = useForm(user);
     const heading = user.id ? 'Edit User' : 'Create User';
 
     useEffect(() => {
@@ -60,10 +55,9 @@ export default function Form({ auth, user, types }: ListProps) {
                                 id="name"
                                 type="text"
                                 name="name"
-                                value={user.name}
+                                value={data.name}
                                 className="mt-1 block w-full"
                                 autoComplete="name"
-                                isFocused={true}
                                 onChange={(e) => setData('name', e.target.value)}
                             />
                         </div>
@@ -74,10 +68,9 @@ export default function Form({ auth, user, types }: ListProps) {
                                 id="email"
                                 type="email"
                                 name="email"
-                                value={user.email}
+                                value={data.email}
                                 className="mt-1 block w-full"
                                 autoComplete="username"
-                                isFocused={true}
                                 onChange={(e) => setData('email', e.target.value)}
                             />
                         </div>
@@ -99,7 +92,7 @@ export default function Form({ auth, user, types }: ListProps) {
                             <div className="flex capitalize gap-2">
                                 {types.map(type => {
                                     return <>
-                                        <Checkbox key={type} onChange={e => setData('type', e.target.value)} value={type} checked={type === user.type}></Checkbox>
+                                        <Checkbox key={type} onChange={e => setData('type', e.target.value)} value={type} checked={type === data.type}></Checkbox>
                                         <InputLabel htmlFor="type" value={type} />
                                     </>;
                                 })}

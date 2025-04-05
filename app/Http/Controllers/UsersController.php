@@ -8,6 +8,7 @@ use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Services\UserService;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -38,7 +39,7 @@ class UsersController extends Controller
 
     public function store()
     {
-        // $this->service->create();
+        // $this->repository->create();
 
         return redirect()->route('users.index');
     }
@@ -51,9 +52,10 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(User $user)
+    public function update(Request $request, User $user)
     {
-        $this->service->update($user);
+        $data = $request->all();
+        $this->repository->update($user, $data);
 
         return redirect()->route('users.index');
     }

@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])
         Route::post('/', [UsersController::class, 'store'])->name('store');
 
         Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('edit');
-        Route::patch('/{user}', [UsersController::class, 'update'])->name('update');
+        Route::post('/{user}', [UsersController::class, 'update'])->name('update');
 
         Route::delete('/{user}', [UsersController::class, 'delete'])->name('delete');
         Route::post('/{user}/restore', [UsersController::class, 'restore'])->name('restore')->withTrashed();
