@@ -14,8 +14,10 @@ class UserRepository
     {
         return User::when($includeDeactivated, fn($query) => $query->withTrashed())
             ->when($searchTerm, function ($query) use ($searchTerm) {
-                $query->where('name', 'like', "%{$searchTerm}%")
-                    ->orWhere('email', 'like', "%{$searchTerm}%");
+                $query->where(function ($query) use ($searchTerm) {
+                    $query->where('name', 'like', "%{$searchTerm}%")
+                        ->orWhere('email', 'like', "%{$searchTerm}%");
+                });
             })
             ->when($type, fn($query) => $query->where('type', $type))
             ->orderBy('last_login_at', 'desc')
