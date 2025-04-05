@@ -4,7 +4,7 @@
 - cd user-crud-test
 - composer install 
 - cp .env.example .env
-- php artisan migrate --seed
+- php artisan migrate --seed --force
 - npm install
 - npm run build
 - php artisan serve
