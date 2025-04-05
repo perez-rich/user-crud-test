@@ -1,3 +1,5 @@
+![User Crud Test Image](./user-crud-test-example.png?raw=true "User Crud Test Image")
+
 ## Local Setup
 
 - git clone https://github.com/perez-rich/user-crud-test.git
