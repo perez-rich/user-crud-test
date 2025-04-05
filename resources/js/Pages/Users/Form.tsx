@@ -7,6 +7,7 @@ import TextInput from '@/Components/TextInput';
 import InputLabel from '@/Components/InputLabel';
 import Dropdown from '@/Components/Dropdown';
 import Checkbox from '@/Components/Checkbox';
+import { PassThrough } from 'node:stream';
 
 interface ListProps {
     auth: {
@@ -17,7 +18,12 @@ interface ListProps {
 }
 
 export default function Form({ auth, user, types }: ListProps) {
-    const { data, setData, post, processing, errors, reset } = useForm(user);
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: user?.name || '',
+        email: user?.email || '',
+        type: user?.type || '',
+        password: '',
+    });
     const heading = user?.id ? 'Edit User' : 'Create User';
 
     useEffect(() => {
@@ -48,6 +54,16 @@ export default function Form({ auth, user, types }: ListProps) {
 
             <div className="card card-normal shadow-xl w-1/2">
                 <div className="card-body">
+                    {errors && (
+                        <ul className="flex flex-col gap-2">
+                            {Object.entries(errors).map((item) => (
+                                <li className="alert alert-error text-white" key={item[0]}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                    <span>{item[1]}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                     <form className="flex flex-col gap-4" onSubmit={submit}>
                         <div>
                             <InputLabel htmlFor="name" value="Name" />
@@ -92,8 +108,8 @@ export default function Form({ auth, user, types }: ListProps) {
                             <div className="flex capitalize gap-2">
                                 {types.map(type => {
                                     return <>
-                                        <Checkbox key={type} onChange={e => setData('type', e.target.value)} value={type} checked={type === data.type}></Checkbox>
-                                        <InputLabel htmlFor="type" value={type} />
+                                        <Checkbox id={`type-${type}`} key={type} onChange={e => setData('type', e.target.value)} value={type} checked={type === data.type}></Checkbox>
+                                        <InputLabel htmlFor={`type-${type}`} value={type} />
                                     </>;
                                 })}
                             </div>

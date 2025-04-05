@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserType;
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserEditRequest;
 use App\Repositories\UserRepository;
 use App\Http\Resources\UserCollection;
 use App\Models\User;
 use App\Services\UserService;
 use Inertia\Inertia;
-use Illuminate\Http\Request;
 
 class UsersController extends Controller
 {
@@ -38,7 +39,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
         $data = $request->all();
         $this->repository->create($data);
@@ -54,7 +55,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UserEditRequest $request, User $user)
     {
         $data = $request->all();
         $this->repository->update($user, $data);
