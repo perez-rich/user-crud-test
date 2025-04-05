@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { User } from '@/types';
+import { shortFormat } from '@/utils/dates';
 
 interface ListProps {
     auth: {
@@ -17,12 +18,32 @@ export default function Dashboard({ auth, users }: ListProps) {
         >
             <Head title="Users" />
 
-            <table>
-                <thead></thead>
+            <table className="table table-zebra">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Last Login</th>
+                        <th>Deactivated</th>
+                    </tr>
+                </thead>
                 <tbody>
                     {users.map((user: User) => {
-                        return <tr>
+                        return <tr key={user.id}>
                             <td>{user.name}</td>
+                            <td>{user.type}</td>
+                            <td>{user.email}</td>
+                            <td>{shortFormat(user.last_login_at)}</td>
+                            <td>{shortFormat(user.deactivated_at)}</td>
+                            <td className="flex gap-2">
+                                <Link href={`/users/${user.id}/edit`} className="btn btn-xs btn-primary">
+                                    Edit
+                                </Link>
+                                <Link href={`/users/${user.id}/delete`} className="btn btn-xs btn-error">
+                                    Deactivate
+                                </Link>
+                            </td>
                         </tr>
                     })}
                 </tbody>

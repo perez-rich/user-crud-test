@@ -12,6 +12,6 @@ class UserRepository
      */
     public function getAll(): Collection
     {
-        return User::orderBy('last_login_at')->get();
+        return User::orderBy('last_login_at', 'desc')->get();
     }
 }
