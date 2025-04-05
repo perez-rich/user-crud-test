@@ -31,6 +31,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'last_login_at' => fake()->numberBetween(0, 100) < 40 ? now() : null,
+            'deactivated_at' => fake()->numberBetween(0, 100) < 20 ? now() : null,
         ];
     }
 
