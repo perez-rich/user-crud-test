@@ -26,7 +26,7 @@ export default function Index({ auth, filters, users }: ListProps) {
     const submitSearch: FormEventHandler = (event) => {
         event.preventDefault();
 
-        const formData = new FormData(event.currentTarget);
+        const formData = new FormData(event.currentTarget as HTMLFormElement);
         const search = formData.get('search') as string;
         const type = formData.get('type') as string;
 
