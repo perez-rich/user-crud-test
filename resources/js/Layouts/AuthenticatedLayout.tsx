@@ -1,12 +1,9 @@
-import { useState, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import { User } from '@/types';
 
 export default function Authenticated({ user, header, children }: PropsWithChildren<{ user: User, header?: ReactNode }>) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
     return (
         <div className="min-h-screen bg-white">
             <nav className="navbar bg-base-100">
@@ -18,7 +15,7 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink href={route('users')} active={route().current('users')}>
+                            <NavLink href={route('users.index')} active={route().current('users.index')}>
                                 Users
                             </NavLink>
                         </li>
@@ -29,7 +26,7 @@ export default function Authenticated({ user, header, children }: PropsWithChild
                         <li>{user.name}</li>
                         <li>
                             <Link href={route('logout')} method="post" as="button">
-                                Log Out
+                                Logout
                             </Link>
                         </li>
                     </ul>

@@ -10,8 +10,10 @@ class UserRepository
     /**
      *  @return Illuminate\Support\Collection|User[]
      */
-    public function getAll(): Collection
+    public function getAll($includeDeactivated = false): Collection
     {
-        return User::orderBy('last_login_at', 'desc')->get();
+        return User::when($includeDeactivated, fn($query) => $query->withTrashed())
+            ->orderBy('last_login_at', 'desc')
+            ->get();
     }
 }

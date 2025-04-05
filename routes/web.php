@@ -27,10 +27,23 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::get('/users', [UsersController::class, 'index'])->middleware(['auth', 'verified'])->name('users');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
+Route::middleware(['auth', 'verified'])
+    ->prefix('users')
+    ->name('users.')
+    ->group(function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+        Route::get('/{user}/edit', [UsersController::class, 'edit'])->name('edit');
+        Route::patch('/{user}', [UsersController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UsersController::class, 'delete'])->name('delete');
+        Route::post('/{user}/restore', [UsersController::class, 'restore'])->name('restore')->withTrashed();
+    });
+
+Route::middleware('auth')
+    ->prefix('profile')
+    ->name('profile.')
+    ->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });

@@ -4,23 +4,55 @@ namespace App\Http\Controllers;
 
 use App\Repositories\UserRepository;
 use App\Http\Resources\UserCollection;
+use App\Models\User;
+use App\Services\UserService;
 use Inertia\Inertia;
 
 class UsersController extends Controller
 {
-    private UserRepository $users;
+    private UserRepository $repository;
+    private UserService $service;
 
-    public function __construct(UserRepository $users)
+    public function __construct(UserRepository $repository, UserService $service)
     {
-        $this->users = $users;
+        $this->repository = $repository;
+        $this->service = $service;
     }
 
     public function index()
     {
-        $users = $this->users->getAll();
+        $users = $this->repository->getAll(true);
 
         return Inertia::render('Users/Index', [
-            'users' => new UserCollection($users)
+            'users' => $users->isEmpty() ? new UserCollection([]) : new UserCollection($users)
         ]);
+    }
+
+    public function edit(User $user)
+    {
+        return Inertia::render('Users/Form', [
+
+        ]);
+    }
+
+    public function update(User $user)
+    {
+        $this->service->update($user);
+
+        return redirect()->route('users.index');
+    }
+
+    public function delete(User $user)
+    {
+        $this->service->deactivate($user);
+
+        return redirect()->route('users.index');
+    }
+
+    public function restore(User $user)
+    {
+        $this->service->restore($user);
+
+        return redirect()->route('users.index');
     }
 }
